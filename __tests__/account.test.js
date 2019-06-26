@@ -35,7 +35,7 @@ describe("insert", () => {
     });
 
     // Lab 1
-    describe("simple strategy", () => {
+    xdescribe("simple strategy", () => {
       it("signup should store the username and password into the database", async () => {
         const newUser = { username: "John Smith", password: "secret" };
         await account.simpleSignUp(newUser);
@@ -54,7 +54,7 @@ describe("insert", () => {
     });
 
     // Lab 2
-    xdescribe("hash", () => {
+    describe("hash", () => {
       const cryptoAlgo = "sha256";
       let hash, digest, userWithDigest;
 
