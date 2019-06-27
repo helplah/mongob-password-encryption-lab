@@ -2,6 +2,7 @@ require("./db");
 require("../user.model");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 const UserModel = mongoose.model("User");
 
@@ -64,16 +65,33 @@ const getHashPassword = (salt, password) => {
 };
 
 const hashSaltLogin = async user => {
-  const result = await simpleLogin({ username: user.username });
-  const salt = result.salt;
+  const foundUser = await UserModel.findOne({ username: user.username });
+  const salt = foundUser.salt;
 
   const hashPassword = getHashPassword(salt, user.password);
-  if (hashPassword === result.password) {
-    return { username: result.username };
+  if (hashPassword === foundUser.password) {
+    return { username: foundUser.username };
   }
 };
 
-//
+// Lab 5
+const bcryptSignup = async user => {
+  const saltRound = 10;
+  const hash = await bcrypt.hash(user.password, saltRound);
+
+  const userWithDigest = { username: user.username, password: hash };
+  const newUser = new UserModel(userWithDigest);
+  return await newUser.save();
+};
+
+const bcryptLogin = async user => {
+  const foundUser = await UserModel.findOne({ username: user.username });
+  const isUser = await bcrypt.compare(user.password, foundUser.password);
+
+  if (isUser) {
+    return { username: user.username };
+  }
+};
 
 module.exports = {
   simpleSignUp,
@@ -81,5 +99,7 @@ module.exports = {
   hashSignUp,
   hashLogin,
   hashSaltSignUp,
-  hashSaltLogin
+  hashSaltLogin,
+  bcryptSignup,
+  bcryptLogin
 };

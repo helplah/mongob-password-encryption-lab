@@ -146,11 +146,12 @@ describe("insert", () => {
       });
     });
 
-    // lab 6
+    // lab 5
     xdescribe("bcrypt", () => {
       it("should be able to login and logout", async () => {
         console.log(await account.bcryptSignup(user));
         const signinUser = await account.bcryptLogin(user);
+        console.log(signinUser);
         expect(signinUser.username).toEqual(user.username);
       });
 
