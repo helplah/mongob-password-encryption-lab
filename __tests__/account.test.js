@@ -54,7 +54,7 @@ describe("insert", () => {
     });
 
     // Lab 2
-    describe("hash", () => {
+    xdescribe("hash", () => {
       const cryptoAlgo = "sha256";
       let hash, digest, userWithDigest;
 
@@ -105,7 +105,6 @@ describe("insert", () => {
         expect(foundUser).toMatchObject(foundUser);
       });
 
-      // Lab 4
       it("should login with hash password and secret", async () => {
         await account.hashWithSecretSignUp(user);
         const loginedUser = await account.hashWithSecretLogin(user);
@@ -114,8 +113,8 @@ describe("insert", () => {
       });
     });
 
-    // Lab 5
-    xdescribe("hash with salt", () => {
+    // Lab 4
+    describe("hash with salt", () => {
       it("should save username and password with random salt", async () => {
         const createdUser = await account.hashSaltSignUp(user);
 
